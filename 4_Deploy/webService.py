@@ -27,8 +27,8 @@ def get_parent_dir(n=1):
     return current_path
 
 
-src_path = os.path.join(get_parent_dir(2), "2_Training", "src")
-utils_path = os.path.join(get_parent_dir(2), "Utils")
+src_path = os.path.join(get_parent_dir(1), "2_Training", "src")
+utils_path = os.path.join(get_parent_dir(1), "Utils")
 
 sys.path.append(src_path)
 sys.path.append(utils_path)
@@ -36,7 +36,7 @@ sys.path.append(utils_path)
 from utils import load_extractor_model, load_features, parse_input, detect_object
 
 # Set up folder names for default values
-data_folder = os.path.join(get_parent_dir(n=2), "Data")
+data_folder = os.path.join(get_parent_dir(1), "Data")
 
 image_folder = os.path.join(data_folder, "Source_Images")
 
