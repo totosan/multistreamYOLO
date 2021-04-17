@@ -3,6 +3,8 @@ import numpy as np
 import os
 import sys
 import io
+import json 
+
 from PIL import Image
 from keras_yolo3.yolo import YOLO, detect_video, detect_webcam
 import tensorflow as tf
@@ -13,8 +15,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator, img_to_arra
 from flask import request
 from flask import render_template,redirect, url_for
 from flask import jsonify
-from flask import send_file
 from flask import Flask
+from flask import send_file
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 
@@ -26,7 +28,7 @@ def get_parent_dir(n=1):
         current_path = os.path.dirname(current_path)
     return current_path
 
-
+confidence = os.getenv("ML_CONFIDENCE",0.60)
 src_path = os.path.join(get_parent_dir(0), "keras_yolo3")
 utils_path = os.path.join(get_parent_dir(0), "Utils")
 
@@ -68,7 +70,7 @@ def get_model():
             "model_path": model_weights,
             "anchors_path": anchors_path,
             "classes_path": model_classes,
-            "score": 0.05,
+            "score": float(confidence),
             "gpu_num": 1,
             "model_image_size": (416, 416),
         }
@@ -112,10 +114,30 @@ def predict(debug=False):
     encoded_img_data = base64.b64encode(file_obj.getvalue())
 
     return render_template("index.html", img_data=encoded_img_data.decode('utf-8'))
-    # return send_file( file_obj,
-    #         mimetype='image/jpeg',
-    #         as_attachment=False,
-    #         attachment_filename='response.jpg')
+
+@app.route("/predict-raw", methods=["POST"])
+def predict_raw():
+    
+    imageData = None
+    if ('imageData' in request.files):
+        imageData = request.files['imageData']
+    elif ('imageData' in request.form):
+        imageData = request.form['imageData']
+    else:
+        imageData = io.BytesIO(request.get_data())
+    image = Image.open(imageData)
+
+    processed_image = preprocess_image(image)
+    prediction, new_image = yolo.detect_image(processed_image)
+
+    response = {
+        'predictions':[{'left':prediction[0][0],
+        'top':prediction[0][1],
+        'right':prediction[0][2],
+        'bottom':prediction[0][3]}]
+    }
+
+    return json.dumps(prediction)
 
 @app.route("/",methods=["GET"])
 def getter():
