@@ -24,5 +24,5 @@ COPY Data/Model_Weights ./Data/Model_Weights
 COPY Utils/utils.py .
 COPY 2_Training/src .
 COPY 4_Deploy/ .
-#CMD [ "export" , "FLASK_APP=webService.py" ]
+CMD [ "export" , "FLASK_APP=webService.py" ]
 #CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
