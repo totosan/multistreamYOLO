@@ -221,95 +221,96 @@ class YOLO(object):
         Returns (annotated) image, time-spent, and out_prediction_ext, which is a list of list, containing, for each object dectected [left, top, right, bottom, predicted_class, score]
         """
         start = timer()
+        with self.sess.graph.as_default():
 
-        if self.model_image_size != (None, None):
-            assert self.model_image_size[0] % 32 == 0, "Multiples of 32 required"
-            assert self.model_image_size[1] % 32 == 0, "Multiples of 32 required"
-            boxed_image = letterbox_image(
-                image, tuple(reversed(self.model_image_size)))
-        else:
-            new_image_size = (
-                image.width - (image.width % 32),
-                image.height - (image.height % 32),
-            )
-            boxed_image = letterbox_image(image, new_image_size)
-        image_data = np.array(boxed_image, dtype="float32")
-        if show_stats:
-            print(f"image_data.shape: {image_data.shape}")
-        image_data /= 255.0
-        image_data = np.expand_dims(image_data, 0)  # Add batch dimension.
-
-        out_boxes, out_scores, out_classes = self.sess.run(
-            [self.boxes, self.scores, self.classes],
-            feed_dict={
-                self.yolo_model.input: image_data,
-                self.input_image_shape: [image.size[1], image.size[0]],
-                K.learning_phase(): 0,
-            },
-        )
-        # BS- No stats if there is nothing to show
-        if show_stats and len(out_boxes) > 0:
-            print("Found {} boxes for {}".format(len(out_boxes), "img"))
-        out_prediction = []
-        out_prediction_ext = []  # BS- also return label in the same set
-        labels = []  # BS- keep track of labels
-        font_path = os.path.join(os.path.dirname(
-            __file__), "font/FiraMono-Medium.otf")
-        font = ImageFont.truetype(
-            font=font_path, size=np.floor(
-                3e-2 * image.size[1] + 0.5).astype("int32")
-        )
-        thickness = (image.size[0] + image.size[1]) // 300
-
-        for i, c in reversed(list(enumerate(out_classes))):
-            predicted_class = self.class_names[c]
-            if predicted_class in self.ignore_labels:  # BS- optional ignore
-                continue
-            box = out_boxes[i]
-            score = out_scores[i]
-
-            label = "{} {:.2f}".format(predicted_class, score)
-            draw = ImageDraw.Draw(image)
-            label_size = draw.textsize(label, font)
-
-            top, left, bottom, right = box
-            top = max(0, np.floor(top + 0.5).astype("int32"))
-            left = max(0, np.floor(left + 0.5).astype("int32"))
-            bottom = min(image.size[1], np.floor(bottom + 0.5).astype("int32"))
-            right = min(image.size[0], np.floor(right + 0.5).astype("int32"))
-
-            # image was expanded to model_image_size: make sure it did not pick
-            # up any box outside of original image (run into this bug when
-            # lowering confidence threshold to 0.01)
-            if top > image.size[1] or right > image.size[0]:
-                continue
-            if show_stats:
-                print(label, (left, top), (right, bottom))
-                print(f'Predicted_class: {predicted_class}')
-                print(
-                    f'Out_prediction: left: {left}, top: {top}, right: {right}, bottom: {bottom}, c: {c}, Score: {score} Predicted_class: {predicted_class}')
-            # output as xmin, ymin, xmax, ymax, class_index, confidence
-            out_prediction.append([left, top, right, bottom, c, score])
-            out_prediction_ext.append(
-                [left, top, right, bottom, predicted_class, score])
-            # labels.append(label)  # BS - keep track of labels
-            if top - label_size[1] >= 0:
-                text_origin = np.array([left, top - label_size[1]])
+            if self.model_image_size != (None, None):
+                assert self.model_image_size[0] % 32 == 0, "Multiples of 32 required"
+                assert self.model_image_size[1] % 32 == 0, "Multiples of 32 required"
+                boxed_image = letterbox_image(
+                    image, tuple(reversed(self.model_image_size)))
             else:
-                text_origin = np.array([left, bottom])
-
-            # My kingdom for a good redistributable image drawing library.
-            for i in range(thickness):
-                draw.rectangle(
-                    [left + i, top + i, right - i, bottom - i], outline=self.colors[c]
+                new_image_size = (
+                    image.width - (image.width % 32),
+                    image.height - (image.height % 32),
                 )
-            draw.rectangle(
-                [tuple(text_origin), tuple(text_origin + label_size)],
-                fill=self.colors[c],
-            )
+                boxed_image = letterbox_image(image, new_image_size)
+            image_data = np.array(boxed_image, dtype="float32")
+            if show_stats:
+                print(f"image_data.shape: {image_data.shape}")
+            image_data /= 255.0
+            image_data = np.expand_dims(image_data, 0)  # Add batch dimension.
 
-            draw.text(text_origin, label, fill=(0, 0, 0), font=font)
-            del draw
+            out_boxes, out_scores, out_classes = self.sess.run(
+                [self.boxes, self.scores, self.classes],
+                feed_dict={
+                    self.yolo_model.input: image_data,
+                    self.input_image_shape: [image.size[1], image.size[0]],
+                    K.learning_phase(): 0,
+                },
+            )
+            # BS- No stats if there is nothing to show
+            if show_stats and len(out_boxes) > 0:
+                print("Found {} boxes for {}".format(len(out_boxes), "img"))
+            out_prediction = []
+            out_prediction_ext = []  # BS- also return label in the same set
+            labels = []  # BS- keep track of labels
+            font_path = os.path.join(os.path.dirname(
+                __file__), "font/FiraMono-Medium.otf")
+            font = ImageFont.truetype(
+                font=font_path, size=np.floor(
+                    3e-2 * image.size[1] + 0.5).astype("int32")
+            )
+            thickness = (image.size[0] + image.size[1]) // 300
+
+            for i, c in reversed(list(enumerate(out_classes))):
+                predicted_class = self.class_names[c]
+                if predicted_class in self.ignore_labels:  # BS- optional ignore
+                    continue
+                box = out_boxes[i]
+                score = out_scores[i]
+
+                label = "{} {:.2f}".format(predicted_class, score)
+                draw = ImageDraw.Draw(image)
+                label_size = draw.textsize(label, font)
+
+                top, left, bottom, right = box
+                top = max(0, np.floor(top + 0.5).astype("int32"))
+                left = max(0, np.floor(left + 0.5).astype("int32"))
+                bottom = min(image.size[1], np.floor(bottom + 0.5).astype("int32"))
+                right = min(image.size[0], np.floor(right + 0.5).astype("int32"))
+
+                # image was expanded to model_image_size: make sure it did not pick
+                # up any box outside of original image (run into this bug when
+                # lowering confidence threshold to 0.01)
+                if top > image.size[1] or right > image.size[0]:
+                    continue
+                if show_stats:
+                    print(label, (left, top), (right, bottom))
+                    print(f'Predicted_class: {predicted_class}')
+                    print(
+                        f'Out_prediction: left: {left}, top: {top}, right: {right}, bottom: {bottom}, c: {c}, Score: {score} Predicted_class: {predicted_class}')
+                # output as xmin, ymin, xmax, ymax, class_index, confidence
+                out_prediction.append([left, top, right, bottom, c, score])
+                out_prediction_ext.append(
+                    [left, top, right, bottom, predicted_class, score])
+                # labels.append(label)  # BS - keep track of labels
+                if top - label_size[1] >= 0:
+                    text_origin = np.array([left, top - label_size[1]])
+                else:
+                    text_origin = np.array([left, bottom])
+
+                # My kingdom for a good redistributable image drawing library.
+                for i in range(thickness):
+                    draw.rectangle(
+                        [left + i, top + i, right - i, bottom - i], outline=self.colors[c]
+                    )
+                draw.rectangle(
+                    [tuple(text_origin), tuple(text_origin + label_size)],
+                    fill=self.colors[c],
+                )
+
+                draw.text(text_origin, label, fill=(0, 0, 0), font=font)
+                del draw
 
         end = timer()
         if show_stats:
