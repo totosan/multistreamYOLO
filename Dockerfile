@@ -17,10 +17,10 @@ FROM debian:buster-slim
 WORKDIR /app
 
 RUN apt update && \
-    apt install --no-install-recommends -y build-essential python3 python3-pip libgtk2.0-dev libgl1-mesa-glx && \
+    apt install --no-install-recommends -y build-essential python3 python3-pip python3-setuptools libgtk2.0-dev libgl1-mesa-glx && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install flask==1.1.2
+RUN pip3 install --no-cache-dir --user flask==1.1.2
 
 COPY --from=builder /root/.local/lib/python3.7/site-packages /usr/local/lib/python3.7/dist-packages
 COPY Data/Model_Weights ./Data/Model_Weights
