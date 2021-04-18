@@ -130,14 +130,18 @@ def predict_raw():
     processed_image = preprocess_image(image)
     prediction, new_image = yolo.detect_image(processed_image)
 
-    response = {
-        'predictions':[{'left':prediction[0][0],
-        'top':prediction[0][1],
-        'right':prediction[0][2],
-        'bottom':prediction[0][3]}]
-    }
+    response = {}
+    if(prediction):
+        response = {
+            'predictions':[{'left':int(prediction[0][0]),
+            'top':int(prediction[0][1]),
+            'right':int(prediction[0][2]),
+            'bottom':int(prediction[0][3]),
+            'class':float(prediction[0][4]),
+            'score':float(prediction[0][5])}]
+        }
 
-    return json.dumps(prediction)
+    return jsonify(response)
 
 @app.route("/",methods=["GET"])
 def getter():
