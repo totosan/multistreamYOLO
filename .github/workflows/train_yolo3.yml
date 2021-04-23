@@ -1,4 +1,4 @@
-name: train-tensorflow-mnist-job
+name: train-yolo3-job
 on: workflow_dispatch
 #  schedule:
 #    - cron: "0 0/2 * * *"
