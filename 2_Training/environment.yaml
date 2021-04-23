@@ -5,11 +5,12 @@ channels:
   - defaults
 dependencies:
   - python=3.7
+  - pip=21.0.1
   - pip:
     - azureml-defaults
     - azureml-mlflow
     - tensorflow-gpu==2.3.0
-    
+    - pyJWT==1.7.1
     - absl-py==0.10.0
     - appdirs==1.4.4
     - astroid==2.4.2
