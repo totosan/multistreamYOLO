@@ -77,6 +77,8 @@ YOLO_classname = os.path.join(Model_Folder, "data_classes.txt")
 log_dir = Model_Folder
 anchors_path = os.path.join(keras_path, "model_data", "yolo_anchors.txt")
 weights_path = os.path.join(keras_path, "yolo.h5")
+download_script_path = os.path.join(get_parent_dir(0), "Download_and_Convert_YOLO_weights.py")
+
 #10-26-20 get name of current repo, which should be the directory one down from ours
 current_repo = get_parent_dir(1).rsplit('/', 1)[1]
 FLAGS = None
@@ -198,7 +200,7 @@ if __name__ == "__main__":
         print("yolo.h5 file exists ✅")
     else:
         print("Downloading yolo weights and generating yolo.h5 file...")
-        subprocess.call("python Download_and_Convert_YOLO_weights.py", shell=True)
+        subprocess.call(download_script_path, shell=True)
         print("Completed.")
     
 
