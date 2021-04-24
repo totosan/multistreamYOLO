@@ -16,7 +16,7 @@ script_dir = str(prefix.joinpath("2_Training"))
 script_name = "Train_YOLO.py"
 
 # environment file
-environment_file = str(prefix.joinpath("environment.yaml"))
+environment_file = str(prefix.joinpath("2_Training/environment.yaml"))
 
 # azure ml settings
 environment_name = "TomowsEnv"
