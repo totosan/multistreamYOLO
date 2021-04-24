@@ -235,6 +235,8 @@ if __name__ == "__main__":
     # This step makes sure that the path names correspond to the local machine
     # This is important if annotation and training are done on different machines (e.g. training on AWS)
 	# 10-26-20 Changed by bertelschmitt to call with current_repo
+    firstLine = lines[0]
+    print(f"First Annotation line: {firstLine}")
     lines = ChangeToOtherMachine(lines, remote_machine="", repo=current_repo)
     np.random.shuffle(lines)
     num_val = int(len(lines) * val_split)
