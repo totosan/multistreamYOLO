@@ -25,6 +25,9 @@ compute_name = "gpucluster"
 
 # create environment
 env = Environment.from_conda_specification(environment_name, environment_file)
+# Specify a GPU base image
+env.docker.enabled = True
+env.docker.base_image = 'mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.0-cudnn7-ubuntu18.04'
 
 # create job config
 src = ScriptRunConfig(
