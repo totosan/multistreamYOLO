@@ -12,7 +12,7 @@ ws = Workspace.from_config()
 prefix = Path(__file__).resolve().parents[1]
 
 # training script
-script_dir = str(prefix.joinpath("2_Training"))
+script_dir = str(prefix.joinpath("."))
 script_name = "Train_YOLO.py"
 
 # environment file
