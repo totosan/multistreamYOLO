@@ -1,5 +1,8 @@
 name: train-yolo3-job
-on: workflow_dispatch
+on: 
+  push:
+    branches:
+      - master
 #  schedule:
 #    - cron: "0 0/2 * * *"
 #  pull_request:

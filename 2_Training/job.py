@@ -13,7 +13,7 @@ prefix = Path(__file__).resolve().parents[1]
 
 # training script
 script_dir = str(prefix.joinpath("."))
-script_name = "Train_YOLO.py"
+script_name = "2_Training/Train_YOLO.py"
 
 # environment file
 environment_file = str(prefix.joinpath("2_Training/environment.yaml"))

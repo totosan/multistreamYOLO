@@ -28,6 +28,9 @@ sys.path.append(src_path)
 utils_path = os.path.join(get_parent_dir(1), "Utils")
 sys.path.append(utils_path)
 
+print(src_path)
+print(utils_path)
+
 import numpy as np
 import keras.backend as K
 from keras.layers import Input, Lambda
