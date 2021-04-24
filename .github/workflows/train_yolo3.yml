@@ -39,7 +39,7 @@ jobs:
 #        environment-file: ./2_Training/environment.yml
 #        python-version: 3.7
 #        auto-activate-base: false
-    - name: download general yolo v3
-      run : python ./2_Training/Download_and_Convert_YOLO_weights.py
+#    - name: download general yolo v3
+#      run : python ./2_Training/Download_and_Convert_YOLO_weights.py
     - name: run workflow
       run: python ./2_Training/job.py

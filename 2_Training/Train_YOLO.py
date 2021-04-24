@@ -200,7 +200,7 @@ if __name__ == "__main__":
         print("yolo.h5 file exists ✅")
     else:
         print("Downloading yolo weights and generating yolo.h5 file...")
-        subprocess.call(download_script_path, shell=True)
+        subprocess.call("python "+download_script_path, shell=True)
         print("Completed.")
     
 
