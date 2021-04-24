@@ -9,10 +9,10 @@ from azureml.core import ScriptRunConfig, Experiment, Environment
 ws = Workspace.from_config()
 
 # get root of git repo
-prefix = Path(__file__).parent
+prefix = Path(__file__).resolve().parents[1]
 
 # training script
-script_dir = str(prefix.joinpath("."))
+script_dir = str(prefix.joinpath("2_Training"))
 script_name = "Train_YOLO.py"
 
 # environment file
