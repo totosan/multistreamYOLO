@@ -63,7 +63,7 @@ from Train_Utils import (
     data_generator_wrapper,
     ChangeToOtherMachine,
 )
-
+import subprocess
 
 keras_path = os.path.join(src_path, "keras_yolo3")
 Data_Folder = os.path.join(get_parent_dir(1), "Data")
@@ -194,6 +194,13 @@ if __name__ == "__main__":
 
     input_shape = (416, 416)  # multiple of 32, height, width
     epoch1, epoch2 = FLAGS.epochs, FLAGS.epochs
+    if(os.path.isfile(weights_path)):
+        print("yolo.h5 file exists ✅")
+    else:
+        print("Downloading yolo weights and generating yolo.h5 file...")
+        subprocess.call('python Download_and_Convert_YOLO_weights.py')
+        print("Completed.")
+    
 
     is_tiny_version = len(anchors) == 6  # default setting
     if FLAGS.is_tiny:

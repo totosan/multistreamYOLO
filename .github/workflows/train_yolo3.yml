@@ -32,6 +32,13 @@ jobs:
       run: az extension add -n azure-cli-ml -y
     - name: attach to workspace
       run: az ml folder attach -w ML-Workspace -g MVPSession
+    - name: install conda
+#    - uses: conda-incubator/setup-miniconda@v2
+#      with:
+#        activate-environment: yolo
+#        environment-file: ./2_Training/environment.yml
+#        python-version: 3.7
+#        auto-activate-base: false
     - name: download general yolo v3
       run : python ./2_Training/Download_and_Convert_YOLO_weights.py
     - name: run workflow
