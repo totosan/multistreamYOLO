@@ -198,7 +198,7 @@ if __name__ == "__main__":
         print("yolo.h5 file exists ✅")
     else:
         print("Downloading yolo weights and generating yolo.h5 file...")
-        subprocess.call('python Download_and_Convert_YOLO_weights.py')
+        subprocess.call("python Download_and_Convert_YOLO_weights.py", shell=True)
         print("Completed.")
     
 
