@@ -7,9 +7,16 @@ from azureml.core import ScriptRunConfig, Experiment, Environment
 
 # get workspace
 ws = Workspace.from_config()
+ds = ws.get_default_datastore()
 
 # get root of git repo
 prefix = Path(__file__).resolve().parents[1]
+
+ds.upload(
+    src_dir="Data/Source_Images",
+    target_path="Data/YoloImages",
+    overwrite=True,
+)
 
 # training script
 script_dir = str(prefix.joinpath("."))
@@ -35,6 +42,9 @@ src = ScriptRunConfig(
     script=script_name,
     environment=env,
     compute_target=compute_name,
+    arguments=[
+        "--datastore_path", ds.as_mount()
+    ]
 )
 
 # submit job

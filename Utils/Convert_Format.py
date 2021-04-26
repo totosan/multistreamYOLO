@@ -39,6 +39,7 @@ def convert_vott_csv_to_yolo(
                 txt_file += "\n" + row["image_path"] + " "
             else:
                 txt_file += "\n" + os.path.join(path, row["image"]) + " "
+            
             txt_file += ",".join(
                 [
                     str(x)

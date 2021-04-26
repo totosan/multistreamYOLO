@@ -81,6 +81,7 @@ download_script_path = os.path.join(get_parent_dir(0), "Download_and_Convert_YOL
 
 #10-26-20 get name of current repo, which should be the directory one down from ours
 current_repo = get_parent_dir(1).rsplit('/', 1)[1]
+print(f"This is the current repo: {current_repo}")
 FLAGS = None
 
 if __name__ == "__main__":
@@ -89,7 +90,12 @@ if __name__ == "__main__":
     """
     Command line options
     """
-
+    parser.add_argument(
+        "--datastore_path",
+        type=str,
+        default=Image_Folder,
+        help="Path to training file folder for Yolo. Default is " + Data_Folder,
+    )
     parser.add_argument(
         "--annotation_file",
         type=str,
@@ -156,7 +162,12 @@ if __name__ == "__main__":
     )
 
     FLAGS = parser.parse_args()
-
+    print("")
+    print("== ARGUMENTS ======================")
+    for arg in vars(FLAGS):
+        print(f"{arg} : {getattr(FLAGS, arg)} ")
+    print("===================================")
+    
     if not FLAGS.warnings:
         tf.logging.set_verbosity(tf.logging.ERROR)
         os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -237,7 +248,7 @@ if __name__ == "__main__":
 	# 10-26-20 Changed by bertelschmitt to call with current_repo
     firstLine = lines[0]
     print(f"First Annotation line: {firstLine}")
-    #lines = ChangeToOtherMachine(lines, remote_machine="", repo=current_repo)
+    lines = ChangeToOtherMachine(lines, remote_machine="", repo=current_repo)
     np.random.shuffle(lines)
     num_val = int(len(lines) * val_split)
     num_train = len(lines) - num_val

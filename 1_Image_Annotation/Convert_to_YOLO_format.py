@@ -67,7 +67,7 @@ if __name__ == "__main__":
     multi_df.drop_duplicates(subset=None, keep="first", inplace=True)
     train_path = FLAGS.VoTT_Folder
     convert_vott_csv_to_yolo(
-        multi_df, labeldict, path=train_path, target_name=FLAGS.YOLO_filename
+        multi_df, labeldict, path=train_path, target_name=FLAGS.YOLO_filename,
     )
 
     # Make classes file
