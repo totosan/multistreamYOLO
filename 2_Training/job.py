@@ -44,7 +44,7 @@ src = ScriptRunConfig(
     environment=env,
     compute_target=compute_name,
     arguments=[
-        "--datastore_path", str(ds.as_mount())
+        "--datastore_path", ds.as_mount()
     ]
 )
 
