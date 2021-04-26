@@ -17,7 +17,7 @@ ds.upload(
     target_path="YoloTraining/Data/Source_Images",
     overwrite=True,
 )
-ds = Dataset.File.from_files((ds, "YoloTraining"))
+dataset = Dataset.File.from_files((ds, "YoloTraining"))
 
 # training script
 script_dir = str(prefix.joinpath("."))
@@ -44,7 +44,7 @@ src = ScriptRunConfig(
     environment=env,
     compute_target=compute_name,
     arguments=[
-        "--datastore_path", ds.as_mount()
+        "--datastore_path", dataset.as_mount()
     ]
 )
 
