@@ -12,11 +12,11 @@ ds = ws.get_default_datastore()
 # get root of git repo
 prefix = Path(__file__).resolve().parents[1]
 
-ds.upload(
-    src_dir="Data/Source_Images",
-    target_path="YoloTraining/Data/Source_Images",
-    overwrite=True,
-)
+#ds.upload(
+#    src_dir="Data/Source_Images",
+#    target_path="YoloTraining/Data/Source_Images",
+#    overwrite=True,
+#)
 dataset = Dataset.File.from_files((ds, "YoloTraining"))
 
 # training script

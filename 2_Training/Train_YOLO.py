@@ -168,7 +168,7 @@ if __name__ == "__main__":
         print(f"{arg} : {getattr(FLAGS, arg)} ")
     print("===================================")
     
-    print("List mounted images: " + os.listdir(FLAGS.datastore_path))
+    print(os.listdir(FLAGS.datastore_path))
     
     if not FLAGS.warnings:
         tf.logging.set_verbosity(tf.logging.ERROR)
