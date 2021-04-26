@@ -14,9 +14,10 @@ prefix = Path(__file__).resolve().parents[1]
 
 ds.upload(
     src_dir="Data/Source_Images",
-    target_path="Data/YoloImages",
+    target_path="YoloTraining/Data/Source_Images",
     overwrite=True,
 )
+ds = Dataset.File.from_files((ds, "YoloTraining"))
 
 # training script
 script_dir = str(prefix.joinpath("."))
