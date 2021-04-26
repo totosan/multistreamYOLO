@@ -2,7 +2,7 @@
 
 # imports
 from pathlib import Path
-from azureml.core import Workspace
+from azureml.core import Workspace, Dataset
 from azureml.core import ScriptRunConfig, Experiment, Environment
 
 # get workspace
