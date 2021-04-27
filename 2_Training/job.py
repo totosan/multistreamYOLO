@@ -53,8 +53,7 @@ src = ScriptRunConfig(
 
 # submit job
 run = Experiment(ws, experiment_name).submit(src)
-    
-RunDetails(run).show()
+
 run.wait_for_completion(show_output=True)
 
 # register model
