@@ -184,8 +184,6 @@ if __name__ == "__main__":
         print(f"{arg} : {getattr(FLAGS, arg)} ")
     print("===================================")
     
-    if(not os.path.isdir(log_dir))):
-        os.mkdir(log_dir)
     #Backported w/o change 10/31/20 from TrainYourOwnYOLO version as of 10/31/20 by BS
 	# Get WandB integration if setup
     try:
@@ -206,6 +204,8 @@ if __name__ == "__main__":
     np.random.seed(FLAGS.random_seed)
 
     log_dir = FLAGS.log_dir
+    if(not os.path.isdir(log_dir)):
+        os.mkdir(log_dir)
 
     class_names = get_classes(FLAGS.classes_file)
     num_classes = len(class_names)
