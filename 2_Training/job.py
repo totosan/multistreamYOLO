@@ -53,7 +53,7 @@ src = ScriptRunConfig(
 
 # submit job
 run = Experiment(ws, experiment_name).submit(src)
-with run.start_logging() as runner
+with run.start_logging() as runner:
     runner.log(name="message", value="Hello run")
     print(runner.get_status())
     RunDetails(run).show()
