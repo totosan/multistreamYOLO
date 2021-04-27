@@ -256,7 +256,7 @@ if __name__ == "__main__":
 	# 10-26-20 Changed by bertelschmitt to call with current_repo
     firstLine = lines[0]
     print(f"First Annotation line: {firstLine}")
-    lines = ChangeToOtherMachine(lines, remote_machine="", repo=current_repo)
+    lines = ChangeToOtherMachine(lines, remote_machine="", repo=FLAGS.datastore_path)
     np.random.shuffle(lines)
     num_val = int(len(lines) * val_split)
     num_train = len(lines) - num_val
