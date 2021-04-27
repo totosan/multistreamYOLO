@@ -18,7 +18,7 @@ prefix = Path(__file__).resolve().parents[1]
 #    target_path="YoloTraining/Data/Source_Images",
 #    overwrite=True,
 #)
-dataset = Dataset.File.from_files((ds, "YoloTraining"))
+dataset = Dataset.File.from_files((ds, "YoloTraining/Data"))
 
 # training script
 script_dir = str(prefix.joinpath("."))
@@ -45,7 +45,7 @@ src = ScriptRunConfig(
     environment=env,
     compute_target=compute_name,
     arguments=[
-        "--datastore_path", os.path.join(dataset.as_mount(),"Data")
+        "--datastore_path", dataset.as_mount()
     ]
 )
 
