@@ -162,25 +162,28 @@ if __name__ == "__main__":
     )
 
     FLAGS = parser.parse_args()
-    print("")
-    print("== ARGUMENTS ======================")
-    for arg in vars(FLAGS):
-        print(f"{arg} : {getattr(FLAGS, arg)} ")
-    print("===================================")
-    
+
     if(FLAGS.datastore_path is not None):
         print("Mounted drive content list:")
-        print(os.listdir(FLAGS.datastore_path))
+        print(FLAGS.datastore_path)
+        Data_Folder = FLAGS.datastore_path
         Image_Folder = os.path.join(Data_Folder, "Source_Images", "Training_Images")
         VoTT_Folder = os.path.join(Image_Folder, "vott-csv-export")
         YOLO_filename = os.path.join(VoTT_Folder, "data_train.txt")
-        FLAGS.annotation_file = YOLO_filename
+        setattr(FLAGS,"annotation_file",YOLO_filename)
     
     if not FLAGS.warnings:
         tf.logging.set_verbosity(tf.logging.ERROR)
         os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
         warnings.filterwarnings("ignore")
 
+    print("")
+    print("== ARGUMENTS ======================")
+    for arg in vars(FLAGS):
+        print(f"{arg} : {getattr(FLAGS, arg)} ")
+    print("===================================")
+    
+    
     #Backported w/o change 10/31/20 from TrainYourOwnYOLO version as of 10/31/20 by BS
 	# Get WandB integration if setup
     try:
