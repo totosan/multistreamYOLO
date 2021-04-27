@@ -20,6 +20,7 @@ def convert_vott_csv_to_yolo(
     path="",
     target_name="data_train.txt",
     abs_path=False,
+    only_relative_path=False,
 ):
 
     # Encode labels according to labeldict if code's don't exist
@@ -35,7 +36,9 @@ def convert_vott_csv_to_yolo(
 
     for index, row in vott_df.iterrows():
         if not last_image == row["image"]:
-            if abs_path:
+            if only_relative_path:
+                txt_file += "\n" + row["image"] + " "
+            elif abs_path:
                 txt_file += "\n" + row["image_path"] + " "
             else:
                 txt_file += "\n" + os.path.join(path, row["image"]) + " "

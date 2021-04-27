@@ -212,6 +212,14 @@ def data_generator_wrapper(
         annotation_lines, batch_size, input_shape, anchors, num_classes
     )
 
+def MakeFilePathAbsolute(filelist, path):
+    new_list = []
+    for file in filelist:
+        listitem = os.path.join(path, file)
+        print(listitem)
+        new_list.append(listitem)
+
+    return new_list
 
 def ChangeToOtherMachine(filelist, repo="TrainYourOwnYOLO", remote_machine="", swaprepo =[]):
     """
@@ -246,6 +254,7 @@ def ChangeToOtherMachine(filelist, repo="TrainYourOwnYOLO", remote_machine="", s
             joiner = swaprepo[1]
         else:
             splitter = joiner = repo
+        print(file)
         suffix = (file.split(splitter))[1]
         if suffix[0] == "/":
             suffix = suffix[1:]

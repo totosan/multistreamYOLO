@@ -62,6 +62,7 @@ from Train_Utils import (
     data_generator,
     data_generator_wrapper,
     ChangeToOtherMachine,
+    MakeFilePathAbsolute,
 )
 import subprocess
 
@@ -259,7 +260,8 @@ if __name__ == "__main__":
 	# 10-26-20 Changed by bertelschmitt to call with current_repo
     firstLine = lines[0]
     print(f"First Annotation line: {firstLine}")
-    lines = ChangeToOtherMachine(lines, remote_machine="", repo=FLAGS.datastore_path)
+    #lines = ChangeToOtherMachine(lines, remote_machine="", repo=Image_Folder, swaprepo=[Image_Folder])
+    lines = MakeFilePathAbsolute(lines, Image_Folder)
     np.random.shuffle(lines)
     num_val = int(len(lines) * val_split)
     num_train = len(lines) - num_val

@@ -57,7 +57,14 @@ if __name__ == "__main__":
         help="Absolute path to the file where the annotations in YOLO format should be saved. Default is "
         + YOLO_filename,
     )
-
+    parser.add_argument(
+        "--use_relative_path_for_images",
+        "-r",
+        type=str,
+        default=False,
+        help="If set to True, image path will be relative; means only filename of image will be included ",
+    )
+    
     FLAGS = parser.parse_args()
 
     # Prepare the dataset for YOLO
@@ -67,7 +74,7 @@ if __name__ == "__main__":
     multi_df.drop_duplicates(subset=None, keep="first", inplace=True)
     train_path = FLAGS.VoTT_Folder
     convert_vott_csv_to_yolo(
-        multi_df, labeldict, path=train_path, target_name=FLAGS.YOLO_filename,
+        multi_df, labeldict, path=train_path, target_name=FLAGS.YOLO_filename,only_relative_path=FLAGS.use_relative_path_for_images
     )
 
     # Make classes file
