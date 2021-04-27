@@ -75,7 +75,7 @@ YOLO_filename = os.path.join(VoTT_Folder, "data_train.txt")
 Model_Folder = os.path.join(Data_Folder, "Model_Weights")
 YOLO_classname = os.path.join(Model_Folder, "data_classes.txt")
 
-log_dir = Model_Folder
+log_dir = "./ouputs/"
 anchors_path = os.path.join(keras_path, "model_data", "yolo_anchors.txt")
 weights_path = os.path.join(keras_path, "yolo.h5")
 download_script_path = os.path.join(get_parent_dir(0), "Download_and_Convert_YOLO_weights.py")
@@ -184,7 +184,8 @@ if __name__ == "__main__":
         print(f"{arg} : {getattr(FLAGS, arg)} ")
     print("===================================")
     
-    
+    if(not os.path.isdir(log_dir))):
+        os.mkdir(log_dir)
     #Backported w/o change 10/31/20 from TrainYourOwnYOLO version as of 10/31/20 by BS
 	# Get WandB integration if setup
     try:
