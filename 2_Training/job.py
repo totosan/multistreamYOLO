@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 from azureml.core import Workspace, Dataset
 from azureml.core import ScriptRunConfig, Experiment, Environment
+from azureml.widgets import RunDetails
 
 # get workspace
 ws = Workspace.from_config()
@@ -46,17 +47,22 @@ src = ScriptRunConfig(
     compute_target=compute_name,
     arguments=[
         "--datastore_path", dataset.as_mount(),
-        "--epochs",10
+        "--epochs",2
     ]
 )
 
 # submit job
 run = Experiment(ws, experiment_name).submit(src)
-run.wait_for_completion(show_output=True)
-
-# register model
-model = run.register_model(model_name='yolov3',
-                           tags={'area': 'Yolo'},
-                           model_path='Data/Model_Weights/')
-print("Registered model:")
-print(model.name, model.id, model.version, sep='\t')
+with run.start_logging() as runner
+    runner.log(name="message", value="Hello run")
+    print(runner.get_status())
+    RunDetails(run).show()
+    run.wait_for_completion(show_output=True)
+    
+    # register model
+    model = run.register_model(model_name='yolov3',
+                            tags={'area': 'Yolo'},
+                            model_path='./Data/Model_Weights/')
+    print("Registered model:")
+    print(model.name, model.id, model.version, sep='\t')
+    
