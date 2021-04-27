@@ -30,7 +30,7 @@ environment_file = str(prefix.joinpath("2_Training/environment.yaml"))
 # azure ml settings
 environment_name = "TomowsEnv"
 experiment_name = "yolo_tuning"
-compute_name = "cpucluster"
+compute_name = "gpucluster"
 
 # create environment
 env = Environment.from_conda_specification(environment_name, environment_file)
@@ -45,10 +45,18 @@ src = ScriptRunConfig(
     environment=env,
     compute_target=compute_name,
     arguments=[
-        "--datastore_path", dataset.as_mount()
+        "--datastore_path", dataset.as_mount(),
+        "--epochs",10
     ]
 )
 
 # submit job
 run = Experiment(ws, experiment_name).submit(src)
 run.wait_for_completion(show_output=True)
+
+# register model
+model = run.register_model(model_name='yolov3',
+                           tags={'area': 'Yolo'},
+                           model_path='Data/Model_Weights/')
+print("Registered model:")
+print(model.name, model.id, model.version, sep='\t')
