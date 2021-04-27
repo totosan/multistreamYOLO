@@ -30,7 +30,7 @@ environment_file = str(prefix.joinpath("2_Training/environment.yaml"))
 # azure ml settings
 environment_name = "TomowsEnv"
 experiment_name = "yolo_tuning"
-compute_name = "gpucluster"
+compute_name = "cpucluster"
 
 # create environment
 env = Environment.from_conda_specification(environment_name, environment_file)
