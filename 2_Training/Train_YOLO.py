@@ -261,7 +261,7 @@ if __name__ == "__main__":
     firstLine = lines[0]
     print(f"First Annotation line: {firstLine}")
     #lines = ChangeToOtherMachine(lines, remote_machine="", repo=Image_Folder, swaprepo=[Image_Folder])
-    lines = MakeFilePathAbsolute(lines, Image_Folder)
+    lines = MakeFilePathAbsolute(lines, VoTT_Folder)
     np.random.shuffle(lines)
     num_val = int(len(lines) * val_split)
     num_train = len(lines) - num_val

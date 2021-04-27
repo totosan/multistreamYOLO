@@ -259,7 +259,7 @@ def ChangeToOtherMachine(filelist, repo="TrainYourOwnYOLO", remote_machine="", s
         if suffix[0] == "/":
             suffix = suffix[1:]
         listitem = os.path.join(prefix, joiner + "/", suffix).replace("\\", "/")
-        print(listitem)
         new_list.append(listitem)
-
+    print("Last line:")
+    print(listitem)
     return new_list
