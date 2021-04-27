@@ -1,6 +1,7 @@
 # description: train tensorflow NN model on mnist data
 
 # imports
+import os
 from pathlib import Path
 from azureml.core import Workspace, Dataset
 from azureml.core import ScriptRunConfig, Experiment, Environment
@@ -44,7 +45,7 @@ src = ScriptRunConfig(
     environment=env,
     compute_target=compute_name,
     arguments=[
-        "--datastore_path", dataset.as_mount()
+        "--datastore_path", os.path.join(dataset.as_mount(),"Data")
     ]
 )
 

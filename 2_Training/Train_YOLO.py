@@ -93,7 +93,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--datastore_path",
         type=str,
-        default=Image_Folder,
+        default=Data_Folder,
         help="Path to training file folder for Yolo. Default is " + Data_Folder,
     )
     parser.add_argument(
@@ -168,7 +168,13 @@ if __name__ == "__main__":
         print(f"{arg} : {getattr(FLAGS, arg)} ")
     print("===================================")
     
-    print(os.listdir(FLAGS.datastore_path))
+    if(FLAGS.datastore_path is not None):
+        print("Mounted drive content list:")
+        print(os.listdir(FLAGS.datastore_path))
+        Image_Folder = os.path.join(Data_Folder, "Source_Images", "Training_Images")
+        VoTT_Folder = os.path.join(Image_Folder, "vott-csv-export")
+        YOLO_filename = os.path.join(VoTT_Folder, "data_train.txt")
+        FLAGS.annotation_file = YOLO_filename
     
     if not FLAGS.warnings:
         tf.logging.set_verbosity(tf.logging.ERROR)
