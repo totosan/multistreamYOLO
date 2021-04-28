@@ -46,7 +46,5 @@ jobs:
 #        auto-activate-base: false
     - name: Convert VoTT to Yolo Annotation
       run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
-#    - name: download general yolo v3
-#      run : python ./2_Training/Download_and_Convert_YOLO_weights.py
     - name: run workflow
       run: python ./2_Training/job.py

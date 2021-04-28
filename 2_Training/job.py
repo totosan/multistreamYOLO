@@ -60,16 +60,9 @@ run = Experiment(ws, experiment_name).submit(src)
 run.wait_for_completion(show_output=False)
 
 # register model (staged)
-model = run.register_model(model_name='yolov3 stage',
-                        tags={'area': 'Yolo'},
-                        model_path='./outputs/trained_weights_stage_1.h5')
-print("Registered model for stage:")
-print(f"Model name:{model.name} \tModel ID:{model.id}, \tModel version:{model.version}, ")
-
-# register model (final)
 model = run.register_model(model_name='yolov3',
                         tags={'area': 'Yolo'},
-                        model_path='./outputs/trained_weights_final.h5')
-print("Registered model for stage:")
-print(f"Model name:{model.name} \tModel ID:{model.id}, \tModel version:{model.version}, ")
+                        model_path='./outputs')
+print("Registered model:")
+print(model.name, model.id, model.version, sep='\t')
 
