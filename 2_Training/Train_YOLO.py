@@ -52,6 +52,7 @@ from keras_yolo3.yolo3.utils import get_random_data
 from PIL import Image
 from time import time
 import tensorflow.compat.v1 as tf
+from azureml.core import Run
 import pickle
 
 from Train_Utils import (
@@ -184,6 +185,9 @@ if __name__ == "__main__":
         print(f"{arg} : {getattr(FLAGS, arg)} ")
     print("===================================")
     
+    # Azure ML Logging
+    run = Run.get_context()
+    
     #Backported w/o change 10/31/20 from TrainYourOwnYOLO version as of 10/31/20 by BS
 	# Get WandB integration if setup
     try:
@@ -204,8 +208,9 @@ if __name__ == "__main__":
     np.random.seed(FLAGS.random_seed)
 
     log_dir = FLAGS.log_dir
-    if(not os.path.isdir(log_dir)):
-        os.mkdir(log_dir)
+
+    # create output folder for Training Artefacts
+    os.makedirs(log_dir, exist_ok=True)
 
     class_names = get_classes(FLAGS.classes_file)
     num_classes = len(class_names)

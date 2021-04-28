@@ -59,6 +59,6 @@ run.wait_for_completion(show_output=True)
 # register model
 model = run.register_model(model_name='yolov3',
                         tags={'area': 'Yolo'},
-                        model_path='./Data/Model_Weights/')
+                        model_path='./outputs/')
 print("Registered model:")
 print(model.name, model.id, model.version, sep='\t')
