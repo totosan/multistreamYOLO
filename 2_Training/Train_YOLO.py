@@ -88,7 +88,7 @@ FLAGS = None
 
 # DEBUG:
 
-print(os.path.listdir("."))
+print(os.listdir("."))
 
 if __name__ == "__main__":
     # Delete all default flags
