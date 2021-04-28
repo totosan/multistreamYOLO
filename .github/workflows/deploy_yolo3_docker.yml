@@ -39,5 +39,5 @@ jobs:
         run: |
              modelid=$(az ml model list --latest --model-name ${{ env.Modelname }} | jq -r .[].id)
              az ml model download --model-id $modelid --target-dir ./
-             ls -alH ./outputs
-        
+             mv ./outputs/* ./Data/Model_Weights/
+             ls -alH ./Data/Model_Weights/
