@@ -8,10 +8,15 @@ on:
 #  pull_request:
 #    branches:
 #      - main
-#    paths:
-#      - workflows/train/tensorflow/mnist/**
-#      - .github/workflows/train-tensorflow-mnist-job.yml
-#      - requirements.txt
+    paths:
+      - .github/workflows/train_yolo3.yml
+      - 2_Training/**
+      - requirements.txt
+      - aml-requirements.txt
+
+  workflow_dispatch:
+
+    
 jobs:
   build:
     runs-on: ubuntu-latest
