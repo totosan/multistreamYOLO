@@ -76,7 +76,7 @@ YOLO_filename = os.path.join(VoTT_Folder, "data_train.txt")
 Model_Folder = os.path.join(Data_Folder, "Model_Weights")
 YOLO_classname = os.path.join(Model_Folder, "data_classes.txt")
 
-log_dir = "./ouputs/"
+log_dir = "./outputs/"
 anchors_path = os.path.join(keras_path, "model_data", "yolo_anchors.txt")
 weights_path = os.path.join(keras_path, "yolo.h5")
 download_script_path = os.path.join(get_parent_dir(0), "Download_and_Convert_YOLO_weights.py")
@@ -85,6 +85,10 @@ download_script_path = os.path.join(get_parent_dir(0), "Download_and_Convert_YOL
 current_repo = get_parent_dir(1).rsplit('/', 1)[1]
 print(f"This is the current repo: {current_repo}")
 FLAGS = None
+
+# DEBUG:
+
+print(os.path.listdir("."))
 
 if __name__ == "__main__":
     # Delete all default flags
