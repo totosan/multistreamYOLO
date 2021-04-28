@@ -216,7 +216,6 @@ def MakeFilePathAbsolute(filelist, path):
     new_list = []
     for file in filelist:
         listitem = os.path.join(path, file)
-        print(listitem)
         new_list.append(listitem)
 
     return new_list
