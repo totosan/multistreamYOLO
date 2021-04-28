@@ -7,9 +7,11 @@ dependencies:
   - python=3.7
   - pip=21.0.1
   - pip:
-    - azureml-defaults
-    - azureml-mlflow
-    - tensorflow-gpu==2.3.0
+#    - azureml-defaults
+#    - azureml-mlflow
+#    - tensorflow-gpu==2.3.0
+#    - tensorflow==2.3.1
+#    - tensorflow-estimator==2.3.0
     - pyJWT==1.7.1
     - absl-py==0.10.0
     - appdirs==1.4.4
@@ -64,8 +66,6 @@ dependencies:
     - six==1.15.0
     - tensorboard==2.3.0
     - tensorboard-plugin-wit==1.7.0
-    - tensorflow==2.3.1
-    - tensorflow-estimator==2.3.0
     - termcolor==1.1.0
     - toml==0.10.1
     - typed-ast==1.4.1
