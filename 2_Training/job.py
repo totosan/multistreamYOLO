@@ -39,6 +39,8 @@ env = Environment.from_conda_specification(environment_name, environment_file)
 env.docker.enabled = True
 env.docker.base_image = 'mcr.microsoft.com/azureml/openmpi3.1.2-cuda10.0-cudnn7-ubuntu18.04'
 
+os.makedirs("./outputs", exist_ok=True)
+
 # create job config
 src = ScriptRunConfig(
     source_directory=script_dir,
@@ -59,6 +61,6 @@ run.wait_for_completion(show_output=True)
 # register model
 model = run.register_model(model_name='yolov3',
                         tags={'area': 'Yolo'},
-                        model_path='./outputs/')
+                        model_path='./outputs')
 print("Registered model:")
 print(model.name, model.id, model.version, sep='\t')
