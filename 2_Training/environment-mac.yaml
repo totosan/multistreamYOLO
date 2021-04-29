@@ -9,7 +9,7 @@ dependencies:
   - pip:
     - azureml-defaults
     - azureml-mlflow
-    - tensorflow-gpu==2.4.0
+#    - tensorflow-gpu==2.4.0
     - tensorflow==2.4.0
     - tensorflow-estimator==2.4.0
     - pyJWT==1.7.1
@@ -76,7 +76,7 @@ dependencies:
 
     - pydub==0.24.1
     - opencv-python==4.4.0.42
-    #- numpy<1.19.0
+    - numpy<1.19.0
     - flask==1.1.2
     #for debugging
     - Pympler==0.9

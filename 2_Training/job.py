@@ -36,7 +36,7 @@ compute_name = "gpucluster"
 # create environment
 env = Environment.from_conda_specification(environment_name, environment_file)
 # Specify a GPU base image
-env.docker.enabled = True
+env.docker.use_docker = True
 env.docker.base_image = 'mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04'
 
 os.makedirs("./outputs", exist_ok=True)
