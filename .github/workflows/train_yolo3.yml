@@ -16,9 +16,13 @@ on:
 
   workflow_dispatch:
 
+env:
+  AML_Environment: TomowsEnv
+  AML_Experiment: yolo_tuning
+  AML_Compute: gpucluster
     
 jobs:
-  build:
+  build-amd64:
     runs-on: ubuntu-latest
     steps:
     - name: check out repo
@@ -47,4 +51,35 @@ jobs:
     - name: Convert VoTT to Yolo Annotation
       run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
     - name: run workflow
-      run: python ./2_Training/job.py
+      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ AML_Experiment }} --compute_name ${{ AML_Compute }} --is_tiny False
+  
+  build-arm64v8:
+    runs-on: ubuntu-latest
+    steps:
+    - name: check out repo
+      uses: actions/checkout@v2
+    - name: setup python
+      uses: actions/setup-python@v2
+      with: 
+        python-version: "3.7"
+    - name: pip install
+      run: pip install --upgrade -r aml-requirements.txt
+    - name: azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZ_AE_CREDS}}
+    - name: install azmlcli
+      run: az extension add -n azure-cli-ml -y
+    - name: attach to workspace
+      run: az ml folder attach -w ML-Workspace -g MVPSession
+#    - name: install conda
+#    - uses: conda-incubator/setup-miniconda@v2
+#      with:
+#        activate-environment: yolo
+#        environment-file: ./2_Training/environment.yml
+#        python-version: 3.7
+#        auto-activate-base: false
+    - name: Convert VoTT to Yolo Annotation
+      run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
+    - name: run workflow
+      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ AML_Experiment }} --compute_name ${{ AML_Compute }} --is_tiny True
