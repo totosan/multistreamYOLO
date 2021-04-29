@@ -48,7 +48,23 @@ jobs:
              modelid=$(az ml model list --latest --model-name ${{ env.Modelname }} | jq -r .[].id)
              az ml model download --model-id $modelid --target-dir ./
              mv ./outputs/* ./Data/Model_Weights/
+             echo "This folder should show the models of interests:"
              ls -alH ./Data/Model_Weights/
+      - name: Docker meta
+        id: meta
+        uses: crazy-max/ghaction-docker-meta@v2
+        with:
+          # list of Docker images to use as base name for tags
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/ml-carsign
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=schedule
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=sha
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
@@ -63,4 +79,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: totosan/ml-carsign:latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

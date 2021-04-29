@@ -49,7 +49,7 @@ src = ScriptRunConfig(
     compute_target=compute_name,
     arguments=[
         "--datastore_path", dataset.as_mount(),
-        "--epochs",20,
+        #"--epochs",20,
         "--log_dir", "./outputs"
     ]
 )
