@@ -1,6 +1,5 @@
 # Stage 1 
 FROM python:3.7-slim as builder
-
 RUN apt update && \
     apt install --no-install-recommends -y build-essential gcc && \
     apt update && \
@@ -13,7 +12,7 @@ RUN pip3 install --no-cache-dir --user -r requirements.txt
 
 #Stage 2
 FROM debian:buster-slim
-
+ARG IS_TINY=no
 WORKDIR /app
 
 RUN apt update && \
@@ -27,6 +26,7 @@ COPY Data/Model_Weights ./Data/Model_Weights
 COPY Utils/utils.py .
 COPY 2_Training/src .
 COPY 4_Deploy/ .
+ENV IS_TINY_MODEL=$IS_TINY
 ENV FLASK_APP=webService.py
 EXPOSE 5000
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]

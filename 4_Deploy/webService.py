@@ -19,6 +19,8 @@ from flask import Flask
 from flask import send_file
 
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+IS_TINY = os.getenv("IS_TINY_MODEL","no")
+CONFIDENCE = os.getenv("ML_CONFIDENCE",0.60)
 
 def get_parent_dir(n=1):
     """returns the n-th parent dicrectory of the current
@@ -28,7 +30,6 @@ def get_parent_dir(n=1):
         current_path = os.path.dirname(current_path)
     return current_path
 
-confidence = os.getenv("ML_CONFIDENCE",0.60)
 src_path = os.path.join(get_parent_dir(0), "keras_yolo3")
 utils_path = os.path.join(get_parent_dir(0), "Utils")
 
@@ -52,7 +53,10 @@ model_folder = os.path.join(data_folder, "Model_Weights")
 model_weights = os.path.join(model_folder, "trained_weights_final.h5")
 model_classes = os.path.join(model_folder, "data_classes.txt")
 
-anchors_path = os.path.join(src_path, "model_data", "yolo_anchors.txt")
+if(IS_TINY == "yes"):
+    anchors_path = os.path.join(src_path, "model_data", "yolo-tiny_anchors.txt")
+else:
+    anchors_path = os.path.join(src_path, "model_data", "yolo_anchors.txt")
 
 FLAGS = None
 
@@ -70,7 +74,7 @@ def get_model():
             "model_path": model_weights,
             "anchors_path": anchors_path,
             "classes_path": model_classes,
-            "score": float(confidence),
+            "score": float(CONFIDENCE),
             "gpu_num": 1,
             "model_image_size": (416, 416),
         }
