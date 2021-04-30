@@ -76,8 +76,11 @@ if __name__ == "__main__":
             "--epochs",20,
             "--log_dir", "./outputs",
         ]
+    
+    run_id="yolo-full"
     if(FLAGS.is_tiny):
         args.append("--is_tiny")
+        run_id="yolo-tiny"
             
     # create job config
     src = ScriptRunConfig(
@@ -89,7 +92,7 @@ if __name__ == "__main__":
     )
 
     # submit job
-    run = Experiment(ws, experiment_name).submit(src)
+    run = Experiment(ws, run_id, experiment_name).submit(src)
 
     run.wait_for_completion(show_output=False)
     
