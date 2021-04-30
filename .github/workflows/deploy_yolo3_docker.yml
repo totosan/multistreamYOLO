@@ -53,6 +53,8 @@ jobs:
               mv ./outputs/* ./Data/Model_Weights/
               echo "This folder should show the models of interests:"
               ls -alH ./Data/Model_Weights/
+             else
+              echo "::error::no model found"
              fi
       - name: Docker meta
         id: meta
@@ -116,6 +118,8 @@ jobs:
               mv ./outputs/* ./Data/Model_Weights/
               echo "This folder should show the models of interests:"
               ls -alH ./Data/Model_Weights/
+             else
+              echo "::error::no model found"
              fi
       - name: Docker meta
         id: meta
