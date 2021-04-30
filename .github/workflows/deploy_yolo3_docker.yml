@@ -47,10 +47,13 @@ jobs:
       - name: Download YoloV3 Custom Model from AML Model Registry
         run: |
              modelid=$(az ml model list --latest --model-name ${{ env.MODEL_NAME }} | jq -r .[].id)
-             az ml model download --model-id $modelid --target-dir ./
-             mv ./outputs/* ./Data/Model_Weights/
-             echo "This folder should show the models of interests:"
-             ls -alH ./Data/Model_Weights/
+             if [ -n "$modelid" ]
+             then
+              az ml model download --model-id $modelid --target-dir ./
+              mv ./outputs/* ./Data/Model_Weights/
+              echo "This folder should show the models of interests:"
+              ls -alH ./Data/Model_Weights/
+             fi
       - name: Docker meta
         id: meta
         uses: crazy-max/ghaction-docker-meta@v2
@@ -107,10 +110,13 @@ jobs:
       - name: Download YoloV3 Custom Model from AML Model Registry
         run: |
              modelid=$(az ml model list --latest --model-name ${{ env.MODEL_NAME }} | jq -r .[].id)
-             az ml model download --model-id $modelid --target-dir ./
-             mv ./outputs/* ./Data/Model_Weights/
-             echo "This folder should show the models of interests:"
-             ls -alH ./Data/Model_Weights/
+             if [ -n "$modelid" ]
+             then
+              az ml model download --model-id $modelid --target-dir ./
+              mv ./outputs/* ./Data/Model_Weights/
+              echo "This folder should show the models of interests:"
+              ls -alH ./Data/Model_Weights/
+             fi
       - name: Docker meta
         id: meta
         uses: crazy-max/ghaction-docker-meta@v2

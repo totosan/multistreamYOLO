@@ -51,7 +51,7 @@ jobs:
     - name: Convert VoTT to Yolo Annotation
       run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
     - name: run workflow
-      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ AML_Experiment }} --compute_name ${{ AML_Compute }} --is_tiny False
+      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }} --is_tiny False
   
   build-arm64v8:
     runs-on: ubuntu-latest
