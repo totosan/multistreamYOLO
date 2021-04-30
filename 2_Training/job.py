@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--is_tiny",
         default=False,
-        action="store_true"
+        action="store_false",
         help="Create the Yolo tiny version, instead the bigger one",
     )
     
