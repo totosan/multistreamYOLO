@@ -22,7 +22,7 @@ env:
   AML_Compute: gpucluster
     
 jobs:
-  build-amd64:
+  build-fullYolo:
     runs-on: ubuntu-latest
     steps:
     - name: check out repo
@@ -51,9 +51,9 @@ jobs:
     - name: Convert VoTT to Yolo Annotation
       run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
     - name: run workflow
-      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }} --is_tiny
+      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }}
   
-  build-arm64v8:
+  build-TinyYolo:
     runs-on: ubuntu-latest
     steps:
     - name: check out repo

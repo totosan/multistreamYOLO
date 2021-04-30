@@ -230,10 +230,12 @@ if __name__ == "__main__":
     input_shape = (416, 416)  # multiple of 32, height, width
     epoch1, epoch2 = FLAGS.epochs, FLAGS.epochs
     if(os.path.isfile(weights_path)):
-        print("yolo.h5 file exists ✅")
+        print("h5 model file exists ✅")
     else:
+        if(FLAGS.is_tiny):
+            addition = " --is_tiny"
         print("Downloading yolo weights and generating yolo.h5 file...")
-        subprocess.call("python "+download_script_path, shell=True)
+        subprocess.call("python " + download_script_path + addition, shell=True)
         print("Completed.")
     
 
