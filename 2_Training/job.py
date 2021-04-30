@@ -34,6 +34,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--is_tiny",
+        Default=False,
         action="store_true",
         help="Create the Yolo tiny version, instead the bigger one",
     )
@@ -70,19 +71,21 @@ if __name__ == "__main__":
     env.docker.base_image = 'mcr.microsoft.com/azureml/openmpi4.1.0-cuda11.0.3-cudnn8-ubuntu18.04'
 
     os.makedirs("./outputs", exist_ok=True)
-
+    args=[
+            "--datastore_path", dataset.as_mount(),
+            "--epochs",20,
+            "--log_dir", "./outputs",
+        ]
+    if(FLAGS.is_tiny):
+        args.append("--is_tiny")
+            
     # create job config
     src = ScriptRunConfig(
         source_directory=script_dir,
         script=script_name,
         environment=env,
         compute_target=compute_name,
-        arguments=[
-            "--datastore_path", dataset.as_mount(),
-            "--epochs",20,
-            "--log_dir", "./outputs",
-            "--is_tiny", FLAGS.is_tiny
-        ]
+        arguments=args
     )
 
     # submit job
