@@ -232,10 +232,12 @@ if __name__ == "__main__":
     if(os.path.isfile(weights_path)):
         print("h5 model file exists ✅")
     else:
+        addition=""
         if(FLAGS.is_tiny):
             addition = " --is_tiny"
         print("Downloading yolo weights and generating yolo.h5 file...")
-        subprocess.call("python " + download_script_path + addition, shell=True)
+        cmd = f"python {download_script_path}{addition}"
+        subprocess.call(cmd, shell=True)
         print("Completed.")
     
 
