@@ -86,7 +86,7 @@ jobs:
           context: .
           file: ./4_Deploy/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }},latest
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
   
   
