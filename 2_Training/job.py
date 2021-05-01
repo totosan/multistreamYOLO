@@ -73,7 +73,7 @@ if __name__ == "__main__":
     os.makedirs("./outputs", exist_ok=True)
     args=[
             "--datastore_path", dataset.as_mount(),
-            "--epochs",20,
+            "--epochs",51,
             "--log_dir", "./outputs",
         ]
     
