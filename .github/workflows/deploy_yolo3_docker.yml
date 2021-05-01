@@ -9,7 +9,7 @@ on:
     branches: [ master ]
     paths:
       - .github/workflows/deploy_yolo3_docker.yml
-      - ./4_Deploy/*
+      - 4_Deploy/*
   
   workflow_run:
     workflows: ["train-yolo3-job"]
