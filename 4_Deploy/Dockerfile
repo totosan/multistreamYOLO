@@ -1,15 +1,9 @@
 # Stage 1 
-FROM python:3.7-slim as builder
+FROM totosan/ml-baseimage:latest as builder
 RUN apt update && \
-    apt install --no-install-recommends -y build-essential gcc && \
-    apt update && \
-    apt install --no-install-recommends -y && \
+    apt install --no-install-recommends -y build-essential python3 python3-pip python3-setuptools libgtk2.0-dev libgl1-mesa-glx && \
     apt clean && rm -rf /var/lib/apt/lists/*
-
-WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip3 install --no-cache-dir --user -r requirements.txt
-
+    
 #Stage 2
 FROM debian:buster-slim
 ARG IS_TINY=no
