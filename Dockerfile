@@ -22,7 +22,7 @@ RUN apt update && \
 RUN pip3 install --no-cache-dir --user flask==1.1.2
 
 COPY --from=builder /root/.local/lib/python3.7/site-packages /usr/local/lib/python3.7/dist-packages
-COPY Data/Model_Weights ./Data/Model_Weights
+COPY Data/Model_Weights/trained_weights_final.h5 ./Data/Model_Weights/
 COPY Utils/utils.py .
 COPY 2_Training/src .
 COPY 4_Deploy/ .
