@@ -359,3 +359,4 @@ if __name__ == "__main__":
     )
     print("Saving final model to "+ str(os.path.join(log_dir, "trained_weights_final.h5")))
     model.save_weights(os.path.join(log_dir, "trained_weights_final.h5"))
+    model.save(os.path.join(log_dir, "trained_final.h5"))
