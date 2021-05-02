@@ -33,6 +33,12 @@ if __name__ == "__main__":
         help="Name of the used compute system (cluster, instance,...) in Azure ML",
     )
     parser.add_argument(
+        "--epochs",
+        default=51,
+        type=int
+        help="Sets epochs of learning. if loss low, it finishes earlier.",
+    )
+    parser.add_argument(
         "--is_tiny",
         default=False,
         action="store_true",
@@ -73,7 +79,7 @@ if __name__ == "__main__":
     os.makedirs("./outputs", exist_ok=True)
     args=[
             "--datastore_path", dataset.as_mount(),
-            "--epochs",10,
+            "--epochs",FLAGS.epochs,
             "--log_dir", "./outputs",
         ]
     

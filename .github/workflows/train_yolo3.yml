@@ -20,6 +20,7 @@ env:
   AML_Environment: TomowsEnv
   AML_Experiment: yolo_tuning
   AML_Compute: gpucluster
+  EPOCHS: 51
     
 jobs:
   build-fullYolo:
@@ -51,7 +52,7 @@ jobs:
     - name: Convert VoTT to Yolo Annotation
       run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
     - name: run workflow
-      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }}
+      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }} --epochs ${{ env.EPOCHS }}
   
   build-TinyYolo:
     runs-on: ubuntu-latest
@@ -82,4 +83,4 @@ jobs:
     - name: Convert VoTT to Yolo Annotation
       run: python ./1_Image_Annotation/Convert_to_YOLO_format.py
     - name: run workflow
-      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }} --is_tiny
+      run: python ./2_Training/job.py --env_name ${{ env.AML_Environment }} --experiment_name ${{ env.AML_Experiment }} --compute_name ${{ env.AML_Compute }} --epochs ${{ env.EPOCHS }} --is_tiny

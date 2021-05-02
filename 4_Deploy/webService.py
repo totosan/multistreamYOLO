@@ -5,6 +5,20 @@ import sys
 import io
 import json 
 
+def get_parent_dir(n=1):
+    """returns the n-th parent dicrectory of the current
+    working directory"""
+    current_path = os.path.dirname(os.path.abspath(__file__))
+    for _ in range(n):
+        current_path = os.path.dirname(current_path)
+    return current_path
+src_path = os.path.join(get_parent_dir(1), "2_Training","src")
+utils_path = os.path.join(get_parent_dir(1), "Utils")
+
+sys.path.append(src_path)
+sys.path.append(utils_path)
+print(src_path)
+
 from PIL import Image
 from keras_yolo3.yolo import YOLO, detect_video, detect_webcam
 import tensorflow as tf
@@ -22,24 +36,11 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 IS_TINY = os.getenv("IS_TINY_MODEL","no")
 CONFIDENCE = os.getenv("ML_CONFIDENCE",0.60)
 
-def get_parent_dir(n=1):
-    """returns the n-th parent dicrectory of the current
-    working directory"""
-    current_path = os.path.dirname(os.path.abspath(__file__))
-    for _ in range(n):
-        current_path = os.path.dirname(current_path)
-    return current_path
-
-src_path = os.path.join(get_parent_dir(0), "keras_yolo3")
-utils_path = os.path.join(get_parent_dir(0), "Utils")
-
-sys.path.append(src_path)
-sys.path.append(utils_path)
 
 from utils import load_extractor_model, load_features, parse_input, detect_object
 
 # Set up folder names for default values
-data_folder = os.path.join(get_parent_dir(0), "Data")
+data_folder = os.path.join(get_parent_dir(1), "Data")
 
 image_folder = os.path.join(data_folder, "Source_Images")
 
@@ -56,7 +57,7 @@ model_classes = os.path.join(model_folder, "data_classes.txt")
 if(IS_TINY == "yes"):
     anchors_path = os.path.join(src_path, "model_data", "yolo-tiny_anchors.txt")
 else:
-    anchors_path = os.path.join(src_path, "model_data", "yolo_anchors.txt")
+    anchors_path = os.path.join(src_path, "keras_yolo3","model_data", "yolo_anchors.txt")
 
 FLAGS = None
 
@@ -79,7 +80,8 @@ def get_model():
             "model_image_size": (416, 416),
         }
     )
-
+    yolo.save()
+    
 def preprocess_image(image):
     if image.mode != "RGB":
         image = image.convert("RGB")
@@ -151,5 +153,35 @@ def predict_raw():
 def getter():
     return "Hello, this is a testing URL"
 
+
+@app.route("/annotate", methods=["POST"])
+def getAnnotation():
+    
+    imageData = None
+    if ('imageData' in request.files):
+        imageData = request.files['imageData']
+    elif ('imageData' in request.form):
+        imageData = request.form['imageData']
+    else:
+        imageData = io.BytesIO(request.get_data())
+    image = Image.open(imageData)
+
+    processed_image = preprocess_image(image)
+    prediction, new_image = yolo.detect_image(processed_image)
+
+    response = {}
+    if(prediction):
+        response = {
+            'predictions':[{'left':int(prediction[0][0]),
+            'top':int(prediction[0][1]),
+            'right':int(prediction[0][2]),
+            'bottom':int(prediction[0][3]),
+            'class':float(prediction[0][4]),
+            'score':float(prediction[0][5])}]
+        }
+
+    return jsonify(response)
+
+# ---------------------------------
 print("Load model...!")
 get_model()

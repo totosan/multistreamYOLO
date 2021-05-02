@@ -206,6 +206,8 @@ class YOLO(object):
             iou_threshold=self.iou,
         )
         return boxes, scores, classes
+    def save(self):
+        self.yolo_model.save("./Data")
 
     def detect_image(self, image, show_stats=False):
         """
