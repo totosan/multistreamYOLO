@@ -145,3 +145,5 @@ wandb/
 
 # images
 **Source_Images
+.gitignore
+.DS_Store

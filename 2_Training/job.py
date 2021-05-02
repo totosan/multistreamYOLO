@@ -35,7 +35,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--epochs",
         default=51,
-        type=int
+        type=int,
         help="Sets epochs of learning. if loss low, it finishes earlier.",
     )
     parser.add_argument(
